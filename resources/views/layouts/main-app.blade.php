@@ -12,7 +12,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -21,6 +21,8 @@
     <link href="{{asset('assets/css/core.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/css/thesaas.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+{{--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">--}}
     <!-- Styles -->
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="{{asset('assets/img/apple-touch-icon.png')}}">
@@ -28,24 +30,27 @@
 </head>
 
 <body>
+<div id="app">
 @include('layouts.component.header')
 
 <!-- Main container -->
-<main class="main-content">
+    <main class="main-content">
+        @guest()
+            <login>
 
-<div id="app">
+            </login>
+        @endguest
+    </main>
+    <!-- END Main container -->
 
+    @include('layouts.component.footer')
 </div>
-
-</main>
-<!-- END Main container -->
-
-@include('layouts.component.footer')
-
 <!-- Scripts -->
+<script src="{{ asset('js/app.js') }}" defer></script>
 <script src="{{asset('assets/js/core.min.js')}}"></script>
 <script src="{{asset('assets/js/thesaas.min.js')}}"></script>
 <script src="{{asset('assets/js/script.js')}}"></script>
+{{--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>--}}
 
 </body>
 </html>

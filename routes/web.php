@@ -12,11 +12,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
+Route::get('logout', function (){
+   Auth::logout();
+    return redirect('/');
+});
 Route::get('/{any?}', function () {
     return view('layouts.main-app');
 })->where('any', '^(?!api\/)[\/\w\.\,-]*');
 
 
-//Auth::routes();
+
 //
 //Route::get('/home', 'HomeController@index')->name('home');
