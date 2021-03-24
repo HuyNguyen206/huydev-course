@@ -40,6 +40,7 @@
 
             </login>
         @endguest
+        @yield('content')
     </main>
     <!-- END Main container -->
 

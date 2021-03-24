@@ -71,6 +71,7 @@ class RegisterController extends Controller
             'username' => \Str::slug($data['name']),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'confirm_token' => \Str::random(25)
         ]);
     }
 
@@ -84,7 +85,7 @@ class RegisterController extends Controller
     protected function registered(Request $request, $user)
     {
         //
-        \Mail::to($user)->send(new ConfirmYourEmail());
+        \Mail::to($user)->send(new ConfirmYourEmail($user));
         redirect($this->redirectPath());
     }
 }

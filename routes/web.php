@@ -12,14 +12,25 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('test-confirm-email-template', function (){
+    return new \App\Mail\ConfirmYourEmail();
+});
 Auth::routes();
 Route::get('logout', function (){
    Auth::logout();
     return redirect('/');
 });
-Route::get('/{any?}', function () {
+Route::get('register/confirm', "ConfirmEmailController@confirmEmail")->name('confirm-register');
+//Route::get('/{any?}', function () {
+//    return view('layouts.main-app');
+//})->where('any', '^(?!api\/)[\/\w\.\,-]*');
+Route::get('/', function () {
     return view('layouts.main-app');
-})->where('any', '^(?!api\/)[\/\w\.\,-]*');
+});
+
+Route::prefix('admin')->group(function(){
+    Route::resource('series', 'SeriesController');
+});
 
 
 
