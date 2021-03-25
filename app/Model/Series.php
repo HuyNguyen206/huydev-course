@@ -8,4 +8,18 @@ class Series extends Model
 {
     //
     protected $guarded = [];
+    protected $with = ['lessons'];
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function lessons(){
+        return $this->hasMany(Lesson::class, 'series_id');
+    }
 }

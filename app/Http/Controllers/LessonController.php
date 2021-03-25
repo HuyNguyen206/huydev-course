@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSeriesRequest;
 use App\Model\Series;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
-class SeriesController extends Controller
+class LessonController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +25,6 @@ class SeriesController extends Controller
     public function create()
     {
         //
-        return view('admin.series.create');
     }
 
     /**
@@ -36,11 +33,10 @@ class SeriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSeriesRequest $request)
+    public function store(Series $series, Request $request)
     {
         //
-       return $request->uploadImage()
-                ->storeSeries();
+        $series->lessons()->create($request->all());
 
     }
 
@@ -50,10 +46,9 @@ class SeriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Series $series)
+    public function show($id)
     {
         //
-      return view('admin.series.index', compact('series'));
     }
 
     /**

@@ -31,8 +31,8 @@
 
 <body>
 <div id="app">
-@include('layouts.component.header')
-
+@include('layouts.component.topbar')
+    @yield('header')
 <!-- Main container -->
     <main class="main-content">
         @guest()

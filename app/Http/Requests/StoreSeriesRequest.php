@@ -27,6 +27,9 @@ class StoreSeriesRequest extends FormRequest
     {
         return [
             //
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'required|image'
         ];
     }
 
@@ -38,11 +41,13 @@ class StoreSeriesRequest extends FormRequest
     }
 
     public function storeSeries(){
-        Series::create([
+       $series = Series::create([
             'title' => $this->title,
             'slug' => Str::slug($this->title),
             'description' => $this->description,
             'image_url' => $this->imagePath
         ]);
+        session()->flash('success', 'series was created successful');
+        return redirect()->route('series.show', $series->slug);
     }
 }

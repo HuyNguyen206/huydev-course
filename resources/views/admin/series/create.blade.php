@@ -1,5 +1,20 @@
 @extends('layouts.main-app')
+@section('header')
+    <header class="header header-inverse" style="background-color: #c2b2cd;">
+        <div class="container text-center">
 
+            <div class="row">
+                <div class="col-12 col-lg-8 offset-lg-2">
+
+                    <h1>Let's Get In Touch</h1>
+                    <p class="fs-20 opacity-70">Here are the ways you can contact us with any questions you have</p>
+
+                </div>
+            </div>
+
+        </div>
+    </header>
+@endsection
 @section('content')
 
     <div class="section">
@@ -10,8 +25,6 @@
 
                     <form action="{{route('series.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="alert alert-success">We received your message and will contact you back soon.</div>
-
                         <div class="form-group">
                             <input class="form-control form-control-lg" type="text" name="title" placeholder="Title">
                         </div>
