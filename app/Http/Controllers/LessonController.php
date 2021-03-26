@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLessonRequest;
 use App\Model\Series;
 use Illuminate\Http\Request;
 
@@ -30,20 +31,26 @@ class LessonController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Series $series, Request $request)
+    public function store(Series $series, StoreLessonRequest $request)
     {
         //
-        $series->lessons()->create($request->all());
+        try {
+            $lession =  $series->lessons()->create($request->all());
+            return  response()->success($lession, 200);
+        } catch (\Throwable $ex) {
+            return  response()->error($ex->getMessage(), 400);
+        }
+
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -54,7 +61,7 @@ class LessonController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -65,8 +72,8 @@ class LessonController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -77,7 +84,7 @@ class LessonController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

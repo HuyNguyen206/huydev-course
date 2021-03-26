@@ -32,7 +32,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->middleware('admin')->group(function(){
-//    Route::resource('series', 'SeriesController');
+    Route::resource('series', 'SeriesController');
     Route::resource('{series_by_id}/lessons', 'LessonController');
 });
 

@@ -21,7 +21,7 @@
         <div class="container">
             <div class="row gap-y">
                 <div class="col-12">
-            <lessons default_lessons="{{$series->lessons}}"></lessons>
+            <lessons default_lessons="{{$series->lessons}}"  id="{{$series->id}}"></lessons>
                 </div>
             </div>
 

@@ -1925,7 +1925,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Lesson",
-  props: ['default_lessons'],
+  props: ['default_lessons', 'id'],
   components: {
     CreateLesson: _children_CreateLesson__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -2146,10 +2146,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['id'],
   methods: {
     addLesson: function addLesson() {
-      axios.post("admin/{series_by_id}/lessons");
+      var _this = this;
+
+      axios.post("/admin/".concat(this.id, "/lessons"), this.form).then(function (res) {})["catch"](function (err) {
+        console.log(err.response);
+
+        if (err.response.status == 422) {
+          _this.errors = err.response.data.errors;
+        } else {
+          alert(err.response.statusText);
+        }
+      });
     }
   },
   data: function data() {
@@ -2159,7 +2182,8 @@ __webpack_require__.r(__webpack_exports__);
         video_id: '',
         description: '',
         episode_number: ''
-      }
+      },
+      errors: []
     };
   },
   name: "CreateLesson",
@@ -37859,7 +37883,7 @@ var render = function() {
         0
       ),
       _vm._v(" "),
-      _c("create-lesson")
+      _c("create-lesson", { attrs: { id: _vm.id } })
     ],
     1
   )
@@ -38171,6 +38195,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
+                      class: { "is-invalid": this.errors.title },
                       attrs: { type: "text", placeholder: "Lession title" },
                       domProps: { value: _vm.form.title },
                       on: {
@@ -38181,7 +38206,17 @@ var render = function() {
                           _vm.$set(_vm.form, "title", $event.target.value)
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    this.errors.title
+                      ? _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(this.errors.title[0]) +
+                              "\n                            "
+                          )
+                        ])
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
@@ -38195,6 +38230,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
+                      class: { "is-invalid": this.errors.video_id },
                       attrs: { type: "text", placeholder: "Vimeo video id" },
                       domProps: { value: _vm.form.video_id },
                       on: {
@@ -38205,7 +38241,17 @@ var render = function() {
                           _vm.$set(_vm.form, "video_id", $event.target.value)
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    this.errors.video_id
+                      ? _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(this.errors.video_id[0]) +
+                              "\n                            "
+                          )
+                        ])
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
@@ -38219,6 +38265,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
+                      class: { "is-invalid": this.errors.episode_number },
                       attrs: { type: "number", placeholder: "Episode number" },
                       domProps: { value: _vm.form.episode_number },
                       on: {
@@ -38233,7 +38280,17 @@ var render = function() {
                           )
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    this.errors.episode_number
+                      ? _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(this.errors.episode_number[0]) +
+                              "\n                            "
+                          )
+                        ])
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
@@ -38247,6 +38304,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
+                      class: { "is-invalid": this.errors.description },
                       attrs: {
                         rows: "5",
                         type: "text",
@@ -38261,7 +38319,17 @@ var render = function() {
                           _vm.$set(_vm.form, "description", $event.target.value)
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    this.errors.description
+                      ? _c("div", { staticClass: "invalid-feedback" }, [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(this.errors.description[0]) +
+                              "\n                            "
+                          )
+                        ])
+                      : _vm._e()
                   ])
                 ])
               ]),

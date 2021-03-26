@@ -14,19 +14,31 @@
                         <form action="">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Lession title"
-                                       v-model="form.title">
+                                       v-model="form.title" :class="{ 'is-invalid': this.errors.title}">
+                                <div class="invalid-feedback" v-if="this.errors.title">
+                                    {{this.errors.title[0]}}
+                                </div>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Vimeo video id"
-                                       v-model="form.video_id">
+                                       v-model="form.video_id" :class="{ 'is-invalid': this.errors.video_id}">
+                                <div class="invalid-feedback" v-if="this.errors.video_id">
+                                    {{this.errors.video_id[0]}}
+                                </div>
                             </div>
                             <div class="form-group">
                                 <input type="number" class="form-control" placeholder="Episode number"
-                                       v-model="form.episode_number">
+                                       v-model="form.episode_number" :class="{ 'is-invalid': this.errors.episode_number}">
+                                <div class="invalid-feedback" v-if="this.errors.episode_number">
+                                    {{this.errors.episode_number[0]}}
+                                </div>
                             </div>
                             <div class="form-group">
                                 <textarea rows="5" type="text" class="form-control" placeholder="Description"
-                                          v-model="form.description"></textarea>
+                                          v-model="form.description" :class="{ 'is-invalid': this.errors.description}"></textarea>
+                                <div class="invalid-feedback" v-if="this.errors.description">
+                                    {{this.errors.description[0]}}
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -42,9 +54,22 @@
 
 <script>
 export default {
+    props: ['id'],
     methods:{
       addLesson(){
-          axios.post(`admin/{series_by_id}/lessons`)
+          axios.post(`/admin/${this.id}/lessons`, this.form)
+          .then(res => {
+
+          })
+          .catch(err => {
+              console.log(err.response)
+              if(err.response.status == 422){
+                  this.errors = err.response.data.errors
+              }
+              else{
+                  alert(err.response.statusText)
+              }
+          })
       }
     },
     data(){
@@ -54,7 +79,8 @@ export default {
               video_id:'',
               description: '',
               episode_number:''
-          }
+          },
+          errors:[]
       }
     },
     name: "CreateLesson",

@@ -7,7 +7,7 @@
     <ul class="list-group">
         <li class="list-group-item" v-for="lesson in formatLesson" :key="lesson.id">{{lesson.title}}</li>
     </ul>
-    <create-lesson></create-lesson>
+    <create-lesson :id="id"></create-lesson>
 </div>
 </template>
 
@@ -16,7 +16,7 @@ import CreateLesson from "./children/CreateLesson";
 
 export default {
     name: "Lesson",
-    props: ['default_lessons'],
+    props: ['default_lessons', 'id'],
     components: {CreateLesson},
     data(){
         return {
