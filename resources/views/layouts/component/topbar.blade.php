@@ -17,6 +17,10 @@
                 <a class="btn btn-sm btn-outline btn-white hidden-sm-down" href="page-register.html">Register</a>
             @endauth
             @auth
+                    <a class="btn btn-sm btn-white mr-4"
+                       href="{{route('series.index')}}">View all series</a>
+                    <a class="btn btn-sm btn-white mr-4"
+                       href="{{route('series.create')}}">Create series</a>
                 <a class="btn btn-sm btn-white mr-4" data-toggle="modal" data-target="#login-form"
                    href="page-login.html">Hi {{auth()->user()->name}}</a>
             @endauth

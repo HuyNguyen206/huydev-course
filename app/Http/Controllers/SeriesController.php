@@ -16,7 +16,8 @@ class SeriesController extends Controller
      */
     public function index()
     {
-        //
+        $series = Series::latest()->get();
+        return view('admin.series.all',compact('series'));
     }
 
     /**

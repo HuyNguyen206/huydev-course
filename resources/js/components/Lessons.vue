@@ -29,6 +29,7 @@ export default {
     mounted() {
         this.$on('created_lesson', (lesson) => {
             console.log(lesson)
+            noty({message: 'Lesson created success!', status:'success'})
             this.lessons.push(lesson)
         })
 
@@ -36,6 +37,7 @@ export default {
           let index =  this.lessons.findIndex(lessonIn => {
                 return lessonIn.id == lesson.id
             })
+            noty({message: 'Lesson was updated success!', status:'success'})
             this.lessons.splice(index, 1, lesson)
         })
     },

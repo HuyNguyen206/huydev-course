@@ -56,8 +56,11 @@
 </template>
 
 <script>
+import errorHandler from "../../mixin/errorHandler";
+
 export default {
     props: ['id'],
+    mixins: [errorHandler],
     computed:{
         getTitle(){
             if(this.isEdit)
@@ -75,11 +78,7 @@ export default {
                     $('#createLesson').modal('hide');
                 })
                 .catch(err => {
-                    if (err.response.status == 422) {
-                        this.errors = err.response.data.errors
-                    } else {
-                        alert(err.response.statusText)
-                    }
+                    this.handerError(err)
                 })
         },
         updateLesson(){
@@ -89,8 +88,14 @@ export default {
                 $('#createLesson').modal('hide');
             })
             .catch(err => {
-                alert(err.response.statusText)
+                this.handerError(err)
             })
+        },
+        contructForm(lesson){
+            this.form.title = lesson.title || ''
+            this.form.video_id = lesson.video_id || ''
+            this.form.description = lesson.description || ''
+            this.form.episode_number = lesson.episode_number || ''
         }
     },
     data() {
@@ -111,25 +116,16 @@ export default {
         this.$parent.$on('createLesson', () => {
             console.log('Create lesson from child')
             this.isEdit = false
-            this.form = {
-                title: '',
-                video_id: '',
-                description: '',
-                episode_number: ''
-            }
+            this.contructForm({})
+            this.errors = []
             $('#createLesson').modal('show');
         }),
 
         this.$parent.$on('edit_lesson', lesson => {
             this.isEdit = true
             this.editLessonId = lesson.id
-            let data = {
-                title:lesson.title,
-                video_id:lesson.video_id,
-                description:lesson.description,
-                episode_number:lesson.episode_number
-            }
-            this.form = data
+            this.contructForm(lesson)
+            this.errors = []
             $('#createLesson').modal('show');
         })
     }

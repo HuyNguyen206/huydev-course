@@ -7,7 +7,12 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-window.EventBus = new Vue()
+window.Event = new Vue()
+
+window.noty = function (payload){
+    Event.$emit('notify', payload)
+}
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -21,6 +26,7 @@ window.EventBus = new Vue()
 
 Vue.component('Login', require('./components/Login.vue').default);
 Vue.component('Lessons', require('./components/Lessons').default);
+Vue.component('Noty', require('./components/Noty').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

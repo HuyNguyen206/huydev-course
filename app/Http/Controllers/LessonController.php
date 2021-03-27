@@ -18,6 +18,7 @@ class LessonController extends Controller
     public function index()
     {
         //
+
     }
 
     /**
@@ -111,4 +112,5 @@ class LessonController extends Controller
         }
 
     }
+
 }

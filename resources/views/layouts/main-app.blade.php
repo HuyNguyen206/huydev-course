@@ -43,7 +43,7 @@
         @yield('content')
     </main>
     <!-- END Main container -->
-
+    <noty></noty>
     @include('layouts.component.footer')
 </div>
 <!-- Scripts -->
