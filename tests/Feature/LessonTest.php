@@ -35,14 +35,29 @@ class LessonTest extends TestCase
     }
 
     public function testTitleIsRequiredToCreateLesson(){
+//        $this->withoutExceptionHandling();
         $series = factory(Series::class)->create();
         $this->adminLogin();
-        $response = $this->postJson("admin/$series->id/lessons", [
+        $response = $this->post("admin/$series->id/lessons", [
 //            'title' => 'This is feature test',
             'video_id' => '421322',
             'description' => 'this is test',
             'episode_number' => 'number 9'
-        ])->assertStatus(422)->assertSessionHasErrors('title');
+        ])->assertStatus(302)->assertSessionHasErrors('title');
 
     }
+
+    public function testDescriptionIsRequiredToCreateLesson(){
+//        $this->withoutExceptionHandling();
+        $series = factory(Series::class)->create();
+        $this->adminLogin();
+        $response = $this->post("admin/$series->id/lessons", [
+            'title' => 'This is feature test',
+            'video_id' => '421322',
+//            'description' => 'this is test',
+            'episode_number' => 'number 9'
+        ])->assertStatus(302)->assertSessionHasErrors('description');
+
+    }
+
 }

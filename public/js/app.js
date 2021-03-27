@@ -1922,6 +1922,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Lesson",
@@ -1929,19 +1937,48 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     CreateLesson: _children_CreateLesson__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$on('created_lesson', function (lesson) {
+      console.log(lesson);
+
+      _this.lessons.push(lesson);
+    });
+    this.$on('update_already', function (lesson) {
+      var index = _this.lessons.findIndex(function (lessonIn) {
+        return lessonIn.id == lesson.id;
+      });
+
+      _this.lessons.splice(index, 1, lesson);
+    });
+  },
   data: function data() {
     return {
-      lesson: this.default_lessons
+      lessons: JSON.parse(this.default_lessons)
     };
   },
-  computed: {
-    formatLesson: function formatLesson() {
-      return JSON.parse(this.lesson);
-    }
+  computed: {// formatLesson(){
+    //    return JSON.parse(this.lesson)
+    // }
   },
   methods: {
+    editLesson: function editLesson(lesson) {
+      this.$emit('edit_lesson', lesson);
+    },
     addNewLesson: function addNewLesson() {
       this.$emit('createLesson');
+    },
+    deleteLesson: function deleteLesson(id, index) {
+      var _this2 = this;
+
+      if (confirm('Are you sure to delete this lesson?')) {
+        axios["delete"]("/admin/".concat(this.id, "/lessons/").concat(id)).then(function (res) {
+          _this2.lessons.splice(index, 1);
+        })["catch"](function (err) {
+          alert(err.response.statusText);
+        });
+      }
     }
   }
 });
@@ -2158,20 +2195,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['id'],
+  computed: {
+    getTitle: function getTitle() {
+      if (this.isEdit) return 'Update lesson';else return 'Create lesson';
+    }
+  },
   methods: {
     addLesson: function addLesson() {
       var _this = this;
 
-      axios.post("/admin/".concat(this.id, "/lessons"), this.form).then(function (res) {})["catch"](function (err) {
-        console.log(err.response);
+      axios.post("/admin/".concat(this.id, "/lessons"), this.form).then(function (res) {
+        _this.$parent.$emit('created_lesson', res.data.data);
 
+        $('#createLesson').modal('hide');
+      })["catch"](function (err) {
         if (err.response.status == 422) {
           _this.errors = err.response.data.errors;
         } else {
           alert(err.response.statusText);
         }
+      });
+    },
+    updateLesson: function updateLesson() {
+      var _this2 = this;
+
+      axios.put("/admin/".concat(this.id, "/lessons/").concat(this.editLessonId), this.form).then(function (res) {
+        _this2.$parent.$emit('update_already', res.data.data);
+
+        $('#createLesson').modal('hide');
+      })["catch"](function (err) {
+        alert(err.response.statusText);
       });
     }
   },
@@ -2183,13 +2241,35 @@ __webpack_require__.r(__webpack_exports__);
         description: '',
         episode_number: ''
       },
-      errors: []
+      errors: [],
+      isEdit: false,
+      editLessonId: ''
     };
   },
   name: "CreateLesson",
   mounted: function mounted() {
+    var _this3 = this;
+
     this.$parent.$on('createLesson', function () {
       console.log('Create lesson from child');
+      _this3.isEdit = false;
+      _this3.form = {
+        title: '',
+        video_id: '',
+        description: '',
+        episode_number: ''
+      };
+      $('#createLesson').modal('show');
+    }), this.$parent.$on('edit_lesson', function (lesson) {
+      _this3.isEdit = true;
+      _this3.editLessonId = lesson.id;
+      var data = {
+        title: lesson.title,
+        video_id: lesson.video_id,
+        description: lesson.description,
+        episode_number: lesson.episode_number
+      };
+      _this3.form = data;
       $('#createLesson').modal('show');
     });
   }
@@ -37875,10 +37955,55 @@ var render = function() {
       _c(
         "ul",
         { staticClass: "list-group" },
-        _vm._l(_vm.formatLesson, function(lesson) {
-          return _c("li", { key: lesson.id, staticClass: "list-group-item" }, [
-            _vm._v(_vm._s(lesson.title))
-          ])
+        _vm._l(_vm.lessons, function(lesson, index) {
+          return _c(
+            "li",
+            {
+              key: lesson.id,
+              staticClass: "list-group-item d-flex justify-content-between"
+            },
+            [
+              _c("span", [
+                _vm._v(
+                  "\n                   " +
+                    _vm._s(lesson.title) +
+                    "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "btn-group" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { href: "" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.editLesson(lesson)
+                      }
+                    }
+                  },
+                  [_vm._v("Edit")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { href: "" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.deleteLesson(lesson.id, index)
+                      }
+                    }
+                  },
+                  [_vm._v("Delete")]
+                )
+              ])
+            ]
+          )
         }),
         0
       ),
@@ -38180,7 +38305,18 @@ var render = function() {
           { staticClass: "modal-dialog", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(0),
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "exampleModalLabel" }
+                  },
+                  [_vm._v(_vm._s(_vm.getTitle))]
+                ),
+                _vm._v(" "),
+                _vm._m(0)
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("form", { attrs: { action: "" } }, [
@@ -38344,15 +38480,25 @@ var render = function() {
                   [_vm._v("Close")]
                 ),
                 _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { type: "button" },
-                    on: { click: _vm.addLesson }
-                  },
-                  [_vm._v("Save changes")]
-                )
+                this.isEdit
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.updateLesson }
+                      },
+                      [_vm._v("Update")]
+                    )
+                  : _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.addLesson }
+                      },
+                      [_vm._v("Create")]
+                    )
               ])
             ])
           ]
@@ -38366,26 +38512,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Add new lesson")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   }
 ]
 render._withStripped = true
@@ -50571,6 +50709,7 @@ module.exports = function(module) {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+window.EventBus = new Vue();
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -50865,8 +51004,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/lehuy/HuyDev/huydev-course/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/lehuy/HuyDev/huydev-course/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\xampp\htdocs\huydev-course\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\huydev-course\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

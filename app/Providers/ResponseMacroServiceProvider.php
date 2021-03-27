@@ -27,7 +27,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
         // Use the same response format for any APIs
         // How to use ? In API controller response()->error($message) or response->success($data)
 
-        Response::macro('success', function ($data, $message = 'success') {
+        Response::macro('success', function ($data=[], $message = 'success') {
 
             return Response::json([
                 'message' => $message,

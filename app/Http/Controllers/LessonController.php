@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLessonRequest;
+use App\Http\Requests\UpdateLessonRequest;
+use App\Model\Lesson;
 use App\Model\Series;
 use Illuminate\Http\Request;
 
@@ -38,10 +40,10 @@ class LessonController extends Controller
     {
         //
         try {
-            $lession =  $series->lessons()->create($request->all());
-            return  response()->success($lession, 200);
+            $lesson = $series->lessons()->create($request->all());
+            return response()->success($lesson, 200);
         } catch (\Throwable $ex) {
-            return  response()->error($ex->getMessage(), 400);
+            return response()->error($ex->getMessage(), 400);
         }
 
 
@@ -53,9 +55,13 @@ class LessonController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Series $series, Lesson $lesson)
     {
-        //
+        try {
+            return response()->success($lesson, 200);
+        } catch (\Throwable $ex) {
+            return response()->error($ex->getMessage(), 400);
+        }
     }
 
     /**
@@ -76,9 +82,16 @@ class LessonController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Series $series, Lesson $lesson, UpdateLessonRequest $request)
     {
         //
+        try {
+            $lesson->update($request->all());
+            return response()->success($lesson->fresh());
+        }catch (\Throwable $ex){
+            return response()->error($ex->getMessage());
+        }
+
     }
 
     /**
@@ -87,8 +100,15 @@ class LessonController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Series $series, Lesson $lesson)
     {
         //
+        try {
+            $lesson->delete();
+            return response()->success();
+        } catch (\Throwable $ex) {
+            return response()->error($ex->getMessage());
+        }
+
     }
 }

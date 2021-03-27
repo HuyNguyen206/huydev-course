@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/{series_by_id}', function (\App\Model\Series $series){
-   dd($series);
-});
+//Route::get('/{series_by_id}', function (\App\Model\Series $series){
+//   dd($series);
+//});
 Route::get('test-confirm-email-template', function (){
     return new \App\Mail\ConfirmYourEmail();
 });
