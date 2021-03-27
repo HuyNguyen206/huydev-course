@@ -29,7 +29,7 @@ Route::get('register/confirm', "ConfirmEmailController@confirmEmail")->name('con
 //})->where('any', '^(?!api\/)[\/\w\.\,-]*');
 Route::get('/', function () {
     return view('layouts.index');
-});
+})->name('home');
 
 Route::prefix('admin')->middleware('admin')->group(function(){
     Route::resource('series', 'SeriesController');

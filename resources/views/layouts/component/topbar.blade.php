@@ -11,6 +11,8 @@
 
 
         <div class="topbar-right">
+            <a class="btn btn-sm btn-white mr-4"
+               href="{{route('home')}}">Home</a>
             @guest
                 <a class="btn btn-sm btn-outline btn-white hidden-sm-down" data-toggle="modal" data-target="#login-form"
                    href="page-login.html">Login</a>
