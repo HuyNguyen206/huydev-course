@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreSeriesRequest;
 use App\Http\Requests\UpdateSeriesRequest;
@@ -9,6 +9,7 @@ use App\Model\Series;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
 
 class SeriesController extends Controller
 {
@@ -82,17 +83,7 @@ class SeriesController extends Controller
     public function update(Series $series, UpdateSeriesRequest $request)
     {
         try {
-            $data = $request->all();
-            if($request->has('image')){
-                $imagePath = $request->uploadImage()->imagePath;
-                if(Storage::exists($series->image_url)){
-                    Storage::delete($series->image_url);
-                }
-                $data['image_url'] = $imagePath;
-            }
-            unset($data['image']);
-            $data['slug'] = Str::slug($request->title);
-            $series->update($data);
+            $request->updateSeries($series);
             return redirect()->route('series.index')->with('success','Series was created success!');
         }catch (\Throwable $ex)
         {

@@ -22,4 +22,8 @@ class Series extends Model
     public function lessons(){
         return $this->hasMany(Lesson::class, 'series_id');
     }
+
+    public function getImagePathAttribute(){
+        return asset('storage').'/'.$this->image_url;
+    }
 }

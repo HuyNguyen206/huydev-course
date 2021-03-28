@@ -27,16 +27,11 @@ Route::get('register/confirm', "ConfirmEmailController@confirmEmail")->name('con
 //Route::get('/{any?}', function () {
 //    return view('layouts.main-app');
 //})->where('any', '^(?!api\/)[\/\w\.\,-]*');
-Route::get('/', function () {
-    return view('layouts.index');
-})->name('home');
-
-Route::prefix('admin')->middleware('admin')->group(function(){
-    Route::resource('series', 'SeriesController');
-    Route::resource('{series_by_id}/lessons', 'LessonController');
+Route::get('/','HomeController@index')->name('home');
+Route::get('set-redis', function () {
+//    \Illuminate\Support\Facades\Redis::set('friend', 'huy');
+    dd(\Illuminate\Support\Facades\Redis::get('friend'));
 });
-
-
 
 //
 //Route::get('/home', 'HomeController@index')->name('home');

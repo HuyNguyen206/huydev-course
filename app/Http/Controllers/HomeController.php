@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Series;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $series = Series::all();
+        return view('layouts.index', compact('series'));
     }
 }
