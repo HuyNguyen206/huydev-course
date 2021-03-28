@@ -11,7 +11,8 @@ $factory->define(Series::class, function (Faker $faker) {
         //
         'title' => $title,
         'slug' => \Illuminate\Support\Str::slug($title),
-        'image_url' => $faker->imageUrl(),
+//        'image_url' => $faker->imageUrl(),
+        'image_url' => 'series/'.\Illuminate\Support\Str::slug($title).'.png',
         'description' => $faker->paragraph()
     ];
 });

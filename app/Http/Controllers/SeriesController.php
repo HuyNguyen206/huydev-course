@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSeriesRequest;
+use App\Http\Requests\UpdateSeriesRequest;
+use App\Model\Lesson;
 use App\Model\Series;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SeriesController extends Controller
@@ -63,9 +66,10 @@ class SeriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Series $series)
     {
         //
+        return view('admin.series.edit', compact('series'));
     }
 
     /**
@@ -75,9 +79,26 @@ class SeriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Series $series, UpdateSeriesRequest $request)
     {
-        //
+        try {
+            $data = $request->all();
+            if($request->has('image')){
+                $imagePath = $request->uploadImage()->imagePath;
+                if(Storage::exists($series->image_url)){
+                    Storage::delete($series->image_url);
+                }
+                $data['image_url'] = $imagePath;
+            }
+            unset($data['image']);
+            $data['slug'] = Str::slug($request->title);
+            $series->update($data);
+            return redirect()->route('series.index')->with('success','Series was created success!');
+        }catch (\Throwable $ex)
+        {
+            return response()->error($ex->getMessage());
+        }
+
     }
 
     /**

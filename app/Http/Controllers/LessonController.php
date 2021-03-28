@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateLessonRequest;
 use App\Model\Lesson;
 use App\Model\Series;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class LessonController extends Controller
 {

@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Model\Series;
+use App\Http\Traits\UploadImage;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
-use App\Http\Traits\UploadImage;
 
-class StoreSeriesRequest extends FormRequest
+
+class UpdateSeriesRequest extends FormRequest
 {
     use UploadImage;
     /**
@@ -31,19 +31,8 @@ class StoreSeriesRequest extends FormRequest
             //
             'title' => 'required',
             'description' => 'required',
-            'image' => 'required|image'
         ];
     }
 
 
-    public function storeSeries(){
-       $series = Series::create([
-            'title' => $this->title,
-            'slug' => Str::slug($this->title),
-            'description' => $this->description,
-            'image_url' => $this->imagePath
-        ]);
-        session()->flash('success', 'series was created successful');
-        return redirect()->route('series.show', $series->slug);
-    }
 }
