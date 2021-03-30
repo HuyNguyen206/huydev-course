@@ -29,8 +29,12 @@ Route::get('register/confirm', "ConfirmEmailController@confirmEmail")->name('con
 //})->where('any', '^(?!api\/)[\/\w\.\,-]*');
 Route::get('/','HomeController@index')->name('home');
 Route::get('set-redis', function () {
-//    \Illuminate\Support\Facades\Redis::set('friend', 'huy');
-    dd(\Illuminate\Support\Facades\Redis::get('friend'));
+//    \Illuminate\Support\Facades\Redis::set('friends', 'huy');
+//    \Illuminate\Support\Facades\Redis::sadd('testSet', 'huy');
+//    \Illuminate\Support\Facades\Redis::sadd('testSet', 'huy');
+//    \Illuminate\Support\Facades\Redis::sadd('testSet', 'ha');
+//    \Illuminate\Support\Facades\Redis::sadd('testSet', 'han');
+    dd(\Illuminate\Support\Facades\Redis::smembers('testSet'));
 });
 
 //
