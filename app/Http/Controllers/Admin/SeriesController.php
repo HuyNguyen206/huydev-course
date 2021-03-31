@@ -98,8 +98,10 @@ class SeriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Series $series)
     {
-        //
+        $series->lessons()->delete();
+        $series->delete();
+        return redirect()->back();
     }
 }

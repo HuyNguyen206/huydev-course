@@ -14,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }
 
     /**
@@ -26,5 +26,9 @@ class HomeController extends Controller
     {
         $series = Series::all();
         return view('layouts.index', compact('series'));
+    }
+
+    public function showSeries(Series $series){
+        return view('frontend.series.show', compact('series'));
     }
 }

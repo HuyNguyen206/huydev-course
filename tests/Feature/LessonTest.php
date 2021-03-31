@@ -60,4 +60,14 @@ class LessonTest extends TestCase
 
     }
 
+    public function testCanGetNextAndPreviousLesson(){
+        $lesson = factory(Lesson::class)->create(['episode_number' => 200]);
+        $lesson2 = factory(Lesson::class)->create(['episode_number' => 100, 'series_id' => 1]);
+        $lesson3 = factory(Lesson::class)->create(['episode_number' => 400, 'series_id' => 1]);
+
+        $this->assertEquals($lesson2->getNextLesson()->id, $lesson->id);
+        $this->assertNull($lesson2->getPreviousLesson());
+        $this->assertEquals();
+    }
+
 }

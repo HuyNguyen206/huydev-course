@@ -40,12 +40,18 @@
                                  {{$loop->iteration}}
                              </td>
                              <td>
-                                 {{$serie->title}}
+                                 <a href="{{route('series.show', $serie->slug)}}">{{$serie->title}}</a>
                              </td>
                              <td>
                               <div class="btn-group">
                                   <a href="{{route('series.edit', $serie->slug)}}" class="btn btn-primary"> Edit</a>
-                                  <a href="" class="btn btn-danger"> Delete</a>
+                                  <form action="{{route('series.destroy', $serie->slug)}}" class="form-delete" method="post">
+                                      @csrf
+                                      @method('delete')
+                                      <a href="void()" class="btn btn-danger" onclick="if(confirm('Are you sure to delete this series?'))
+                                      {event.preventDefault(); $('.form-delete').submit()} "> Delete</a>
+                                  </form>
+
                               </div>
                              </td>
                          </tr>

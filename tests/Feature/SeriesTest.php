@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Model\Lesson;
 use App\Model\Series;
 use App\User;
 use Faker\Provider\Image;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -191,5 +193,19 @@ class SeriesTest extends TestCase
 //            'description' => 'test description updated',
             'image' =>  UploadedFile::fake()->image('test.png')
         ])->assertSessionHasErrors('description')->assertRedirect();
+    }
+
+    public function testCanGetCorrectOrderLessonByEpisodeNumberForSeries(){
+        $lesson = factory(Lesson::class)->create(['episode_number' => 200]);
+        $lesson2 = factory(Lesson::class)->create(['episode_number' => 100, 'series_id' => 1]);
+        $lesson3 = factory(Lesson::class)->create(['episode_number' => 400, 'series_id' => 1]);
+
+        $orderLessons = $lesson->series->getOrderedLesson();
+//        dump($orderLessons);
+//        dd($lesson2);
+        $this->assertInstanceOf(Collection::class, $orderLessons);
+        $this->assertInstanceOf(Lesson::class, $orderLessons->random());
+        $this->assertEquals($lesson2->id, $orderLessons->first()->id);
+        $this->assertEquals($lesson3->id, $orderLessons->last()->id);
     }
 }

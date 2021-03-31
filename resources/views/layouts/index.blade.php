@@ -47,7 +47,7 @@
                     <br>
                     <p>{{$ser->description}}</p>
                     <br>
-                    <a href="#">Read More</a>
+                    <a href="{{route('series', $ser->slug)}}">Read More</a>
                 </div>
                 @empty
 

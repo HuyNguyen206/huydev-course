@@ -3,7 +3,7 @@
     <div class="container">
 
         <div class="topbar-left">
-            <a class="topbar-brand" href="index.html">
+            <a class="topbar-brand" href="{{route('home')}}">
                 <img class="logo-default" src="{{asset('assets/img/logo.png')}}" alt="logo">
                 <img class="logo-inverse" src="{{asset('assets/img/logo-light.png')}}" alt="logo">
             </a>
