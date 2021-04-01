@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Model\Lesson;
 use App\Model\Series;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -67,7 +68,9 @@ class LessonTest extends TestCase
 
         $this->assertEquals($lesson2->getNextLesson()->id, $lesson->id);
         $this->assertNull($lesson2->getPreviousLesson());
-        $this->assertEquals();
+        $this->assertEquals($lesson3->id,$lesson->getNextLesson()->id);
+        $this->assertEquals($lesson2->id,$lesson->getPreviousLesson()->id);
+        $this->assertNull($lesson3->getNextLesson());
     }
 
 }

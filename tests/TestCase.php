@@ -14,6 +14,7 @@ abstract class TestCase extends BaseTestCase
         $user = factory(User::class)->create();
         Config::push('course.admin', $user->email);
         $this->actingAs($user);
+        return $user;
     }
 
     public function flushRedis(){

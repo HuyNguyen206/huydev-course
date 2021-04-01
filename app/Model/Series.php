@@ -28,6 +28,6 @@ class Series extends Model
     }
 
     public function getOrderedLesson(){
-       return $this->lessons->sortBy(['episode_number']);
+       return $this->lessons->sortBy(['episode_number'])->values();
     }
 }

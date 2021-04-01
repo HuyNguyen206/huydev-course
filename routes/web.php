@@ -32,7 +32,7 @@ Route::get('register/confirm', "ConfirmEmailController@confirmEmail")->name('con
 //    return view('layouts.main-app');
 //})->where('any', '^(?!api\/)[\/\w\.\,-]*');
 Route::get('/','HomeController@index')->name('home');
-Route::get('series/{series}', 'HomeController@showSeries')->name('series');
+
 Route::get('set-redis', function () {
 //    \Illuminate\Support\Facades\Redis::set('friends', 'huy');
 //    \Illuminate\Support\Facades\Redis::sadd('testSet', 'huy');
@@ -41,7 +41,9 @@ Route::get('set-redis', function () {
 //    \Illuminate\Support\Facades\Redis::sadd('testSet', 'han');
     dd(\Illuminate\Support\Facades\Redis::smembers('testSet'));
 });
+Route::get('series/{series}', 'HomeController@showSeries')->name('series');
 Route::get('watch-series/{series}', 'WatchSeriesController@index')->name('watch-series');
 Route::get('series/{series}/lesson/{lesson}', 'WatchSeriesController@watchLesson')->name('watch-series.lesson');
+Route::post('series/complete-lesson/{lesson}', 'WatchSeriesController@completeLesson')->name('watch-series.complete-lesson');
 //
 //Route::get('/home', 'HomeController@index')->name('home');

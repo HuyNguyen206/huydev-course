@@ -5,7 +5,8 @@
  */
 
 require('./bootstrap');
-
+import Swal from 'sweetalert2'
+window.Swal = Swal
 window.Vue = require('vue');
 window.Event = new Vue()
 

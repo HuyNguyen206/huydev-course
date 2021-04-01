@@ -34,4 +34,9 @@ trait Learning {
         $lessons = Lesson::whereIn('id', $arrayCompletedLessonId)->get();
         return $lessons;
     }
+
+    public function hasCompleteLesson($lesson){
+        $key = $this->getKeyUserSeries($lesson->series->id);
+        return in_array($lesson->id, Redis::smembers($key));
+    }
 }

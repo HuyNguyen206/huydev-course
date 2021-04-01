@@ -5,11 +5,89 @@
 <script>
 import Player from "@vimeo/player"
 export default {
-    props:['video_id'],
+    props:['video_id', 'next_lesson_url'],
+    methods:{
+        showCompletedLesson(){
+            console.log('lesson ended')
+
+            let timerInterval
+            Swal.fire({
+                title: 'You have completed this lesson',
+                html: 'Go to the next lesson in <b></b> milliseconds.',
+                timer: 4000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                        const content = Swal.getContent()
+                        if (content) {
+                            const b = content.querySelector('b')
+                            if (b) {
+                                b.textContent = Swal.getTimerLeft()
+                            }
+                        }
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    window.location = this.next_lesson_url
+                    console.log('I was closed by the timer')
+                }
+            })
+
+            // const Toast = Swal.mixin({
+            //     toast: true,
+            //     position: 'top-end',
+            //     showConfirmButton: false,
+            //     timer: 3000,
+            //     timerProgressBar: true,
+            //     didOpen: (toast) => {
+            //         toast.addEventListener('mouseenter', Swal.stopTimer)
+            //         toast.addEventListener('mouseleave', Swal.resumeTimer)
+            //     },
+            //     onClose: ()=>{
+            //         console.log('Popup auto close')
+            //         window.location = this.next_lesson_url
+            //     }
+            // })
+            //
+            // Toast.fire({
+            //     icon: 'success',
+            //     title: 'You have completed this lesson'
+            // })
+
+            // Swal.fire({
+            //     position: 'top-end',
+            //     icon: 'success',
+            //     title: 'You have completed this lesson',
+            //     showConfirmButton: false,
+            //     timer: 1500
+            // })
+        }
+    },
     mounted() {
         var player = new Player('handstick');
         player.on('play', ()=>{
             console.log('Video playing')
+        })
+
+        player.on('ended', ()=>{
+            if(this.next_lesson_url){
+                this.showCompletedLesson()
+            }
+            else{
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Congratulation!',
+                    text: 'You have complete the series',
+                    // footer: '<a href>Why do I have this issue?</a>'
+                })
+            }
+
         })
 
     },

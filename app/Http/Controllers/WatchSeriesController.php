@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 class WatchSeriesController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Series $series){
         return redirect()->route('watch-series.lesson', [
             'series'=> $series->slug,
@@ -17,6 +22,16 @@ class WatchSeriesController extends Controller
     }
 
     public function watchLesson(Series $series, Lesson $lesson){
-        return view('frontend.lesson.show', compact('lesson'));
+        return view('frontend.lesson.show', compact('lesson', 'series'));
+    }
+
+    public function completeLesson(Lesson $lesson){
+        try {
+            auth()->user()->completeLesson($lesson);
+            return response()->success();
+        }catch (\Throwable $ex){
+            return response()->error($ex->getMessage());
+        }
+
     }
 }
