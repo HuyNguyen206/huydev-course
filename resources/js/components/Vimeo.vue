@@ -5,7 +5,7 @@
 <script>
 import Player from "@vimeo/player"
 export default {
-    props:['video_id', 'next_lesson_url'],
+    props:['video_id', 'next_lesson_url', 'lesson_id'],
     methods:{
         showCompletedLesson(){
             console.log('lesson ended')
@@ -67,6 +67,16 @@ export default {
             //     showConfirmButton: false,
             //     timer: 1500
             // })
+        },
+        completeLesson(){
+            axios.post(`/series/complete-lesson/${this.lesson_id}`)
+            .then(res =>{
+                this.showCompletedLesson()
+                console.log('Alrady send complete lesson request')
+            })
+            .catch(err => {
+                alert(err.response.statusText)
+            })
         }
     },
     mounted() {
@@ -77,7 +87,7 @@ export default {
 
         player.on('ended', ()=>{
             if(this.next_lesson_url){
-                this.showCompletedLesson()
+                this.completeLesson()
             }
             else{
                 Swal.fire({

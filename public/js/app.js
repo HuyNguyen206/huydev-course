@@ -4719,7 +4719,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['video_id', 'next_lesson_url'],
+  props: ['video_id', 'next_lesson_url', 'lesson_id'],
   methods: {
     showCompletedLesson: function showCompletedLesson() {
       var _this = this;
@@ -4781,18 +4781,29 @@ __webpack_require__.r(__webpack_exports__);
       //     showConfirmButton: false,
       //     timer: 1500
       // })
+    },
+    completeLesson: function completeLesson() {
+      var _this2 = this;
+
+      axios.post("/series/complete-lesson/".concat(this.lesson_id)).then(function (res) {
+        _this2.showCompletedLesson();
+
+        console.log('Alrady send complete lesson request');
+      })["catch"](function (err) {
+        alert(err.response.statusText);
+      });
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     var player = new _vimeo_player__WEBPACK_IMPORTED_MODULE_0__["default"]('handstick');
     player.on('play', function () {
       console.log('Video playing');
     });
     player.on('ended', function () {
-      if (_this2.next_lesson_url) {
-        _this2.showCompletedLesson();
+      if (_this3.next_lesson_url) {
+        _this3.completeLesson();
       } else {
         Swal.fire({
           icon: 'success',

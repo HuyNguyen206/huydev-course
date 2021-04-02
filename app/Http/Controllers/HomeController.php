@@ -31,4 +31,8 @@ class HomeController extends Controller
     public function showSeries(Series $series){
         return view('frontend.series.show', compact('series'));
     }
+
+    public function getProfile(){
+        return view('frontend.user.profile');
+    }
 }

@@ -23,8 +23,8 @@
                        href="{{route('series.index')}}">View all series</a>
                     <a class="btn btn-sm btn-white mr-4"
                        href="{{route('series.create')}}">Create series</a>
-                <a class="btn btn-sm btn-white mr-4" data-toggle="modal" data-target="#login-form"
-                   href="page-login.html">Hi {{auth()->user()->name}}</a>
+                <a class="btn btn-sm btn-white mr-4"
+                   href="{{route('profile')}}">Hi {{auth()->user()->name}}</a>
             @endauth
         </div>
 

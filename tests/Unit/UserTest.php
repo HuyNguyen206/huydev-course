@@ -101,4 +101,26 @@ class UserTest extends TestCase
         $this->assertTrue($user->hasCompleteLesson($lesson));
         $this->assertFalse($user->hasCompleteLesson($lesson2));
     }
+
+    public function testCanGetAllSeriesBeingWatchByUser(){
+        $this->flushRedis();
+        $user = $this->adminLogin();
+        $lesson = factory(Lesson::class)->create();
+        $lesson2 = factory(Lesson::class)->create([
+            'series_id' => 1
+        ]);
+        $lesson3 = factory(Lesson::class)->create([
+            'series_id' => 2
+        ]);
+        $lesson4 = factory(Lesson::class)->create([
+            'series_id' => 2
+        ]);
+        $lesson5 = factory(Lesson::class)->create([
+            'series_id' => 3
+        ]);
+        $user->completeLesson($lesson);
+        $user->completeLesson($lesson3);
+
+        $this->assertTrue(in_array($lesson->series->id, $user->getSeriesBeingWatch()));
+    }
 }

@@ -23,7 +23,7 @@
                     @php
                         $nextLesson = $lesson->getNextLesson();
                     @endphp
-                    <vimeo video_id="{{$lesson->video_id}}"
+                    <vimeo video_id="{{$lesson->video_id}}" lesson_id="{{$lesson->id}}"
                            next_lesson_url="{{$nextLesson ? route('watch-series.lesson', ['series' => $series->slug, 'lesson' => $nextLesson->id]) : null}}"></vimeo>
                     <div class="text-center my-3">
                         @if($previousLesson = $lesson->getPreviousLesson())
@@ -39,8 +39,12 @@
                         <ul class="list-group">
                             @foreach($series->getOrderedLesson() as $les)
                                 <li class="list-group-item  {{$lesson->id == $les->id ? 'active-lesson' : ''}}">
+
                                     <a class=" d-flex" style="width: 100%"
                                        href="{{route('watch-series.lesson', ['series' => $series->slug, 'lesson' => $les->id])}}">
+                                        @if(auth()->user()->hasCompleteLesson($les))
+                                            <i class="far fa-check-square" style="color: green;font-size: 20px;margin-right: 10px;"></i>
+                                        @endif
                                         <span class="mr-2 d-inline-block">  Episode Number {{$les->episode_number}} </span>
                                         <span class="d-inline-block"> {{$les->title}}</span> </a>
                                 </li>

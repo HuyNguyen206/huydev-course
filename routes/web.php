@@ -47,3 +47,4 @@ Route::get('series/{series}/lesson/{lesson}', 'WatchSeriesController@watchLesson
 Route::post('series/complete-lesson/{lesson}', 'WatchSeriesController@completeLesson')->name('watch-series.complete-lesson');
 //
 //Route::get('/home', 'HomeController@index')->name('home');
+Route::get('profile', 'HomeController@getProfile')->middleware('auth')->name('profile');
