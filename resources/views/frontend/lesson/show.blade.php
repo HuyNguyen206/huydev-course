@@ -22,15 +22,16 @@
                 <div class="col-12">
                     @php
                         $nextLesson = $lesson->getNextLesson();
+                        $previousLesson = $lesson->getPreviousLesson();
                     @endphp
                     <vimeo video_id="{{$lesson->video_id}}" lesson_id="{{$lesson->id}}"
-                           next_lesson_url="{{$nextLesson ? route('watch-series.lesson', ['series' => $series->slug, 'lesson' => $nextLesson->id]) : null}}"></vimeo>
+                           next_lesson_url="{{$nextLesson !== $lesson ? route('watch-series.lesson', ['series' => $series->slug, 'lesson' => $nextLesson->id]) : null}}"></vimeo>
                     <div class="text-center my-3">
-                        @if($previousLesson = $lesson->getPreviousLesson())
+                        @if($previousLesson !== $lesson)
                             <a href="{{route('watch-series.lesson', ['series' => $series->slug, 'lesson' => $previousLesson->id])}}"
                                class="btn btn-info">Previous Lesson</a>
                         @endif
-                        @if($nextLesson)
+                        @if($nextLesson !== $lesson)
                             <a href="{{route('watch-series.lesson', ['series' => $series->slug, 'lesson' => $nextLesson->id])}}"
                                class="btn btn-info">Next Lesson</a>
                         @endif
@@ -40,7 +41,7 @@
                             @foreach($series->getOrderedLesson() as $les)
                                 <li class="list-group-item  {{$lesson->id == $les->id ? 'active-lesson' : ''}}">
 
-                                    <a class=" d-flex" style="width: 100%"
+                                    <a class=" d-flex" style="width: 100%; align-items: center;"
                                        href="{{route('watch-series.lesson', ['series' => $series->slug, 'lesson' => $les->id])}}">
                                         @if(auth()->user()->hasCompleteLesson($les))
                                             <i class="far fa-check-square" style="color: green;font-size: 20px;margin-right: 10px;"></i>

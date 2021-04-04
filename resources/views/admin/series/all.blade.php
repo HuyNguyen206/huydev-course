@@ -45,11 +45,11 @@
                              <td>
                               <div class="btn-group">
                                   <a href="{{route('series.edit', $serie->slug)}}" class="btn btn-primary"> Edit</a>
-                                  <form action="{{route('series.destroy', $serie->slug)}}" class="form-delete" method="post">
+                                  <form action="{{route('series.destroy', $serie->slug)}}" class="form-delete-{{$serie->id}}" method="post">
                                       @csrf
                                       @method('delete')
-                                      <a href="void()" class="btn btn-danger" onclick="if(confirm('Are you sure to delete this series?'))
-                                      {event.preventDefault(); $('.form-delete').submit()} "> Delete</a>
+                                      <a href="#" class="btn btn-danger" onclick="event.preventDefault(); if(confirm('Are you sure to delete this series?'))
+                                      {$('.form-delete-{{$serie->id}}').submit()} ">Delete</a>
                                   </form>
 
                               </div>

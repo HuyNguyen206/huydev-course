@@ -28,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('hasStartSeries', function ($seriesId){
             return auth()->user()->hasStartSeries($seriesId);
         });
+
+        Blade::if('admin', function (){
+            return auth()->user()->isAdmin();
+        });
     }
 }

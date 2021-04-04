@@ -19,12 +19,14 @@
                 <a class="btn btn-sm btn-outline btn-white hidden-sm-down" href="page-register.html">Register</a>
             @endauth
             @auth
+                @admin
                     <a class="btn btn-sm btn-white mr-4"
                        href="{{route('series.index')}}">View all series</a>
                     <a class="btn btn-sm btn-white mr-4"
                        href="{{route('series.create')}}">Create series</a>
+                @endadmin
                 <a class="btn btn-sm btn-white mr-4"
-                   href="{{route('profile')}}">Hi {{auth()->user()->name}}</a>
+                   href="{{route('profile', auth()->user()->username)}}">Hi {{auth()->user()->name}}</a>
             @endauth
         </div>
 

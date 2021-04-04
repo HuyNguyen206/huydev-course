@@ -16,13 +16,13 @@ class Lesson extends Model
     public function getNextLesson(){
         $orderLessons = $this->series->getOrderedLesson();
         $currentLessonIndex = $this->getCurrentLessonIndex($orderLessons);
-        return $orderLessons[$currentLessonIndex+1] ?? null;
+        return $orderLessons[$currentLessonIndex+1] ?? $this;
     }
 
     public function getPreviousLesson(){
         $orderLessons = $this->series->getOrderedLesson();
         $currentLessonIndex = $this->getCurrentLessonIndex($orderLessons);
-        return $orderLessons[$currentLessonIndex-1] ?? null;
+        return $orderLessons[$currentLessonIndex-1] ?? $this;
     }
 
     public function getCurrentLessonIndex($orderLessons){

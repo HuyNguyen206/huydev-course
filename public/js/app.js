@@ -4782,11 +4782,22 @@ __webpack_require__.r(__webpack_exports__);
       //     timer: 1500
       // })
     },
-    completeLesson: function completeLesson() {
+    completeLesson: function completeLesson(isLastLesson) {
       var _this2 = this;
 
       axios.post("/series/complete-lesson/".concat(this.lesson_id)).then(function (res) {
-        _this2.showCompletedLesson();
+        console.log('last lesson:' + isLastLesson);
+
+        if (isLastLesson) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Congratulation!',
+            text: 'You have complete the series' // footer: '<a href>Why do I have this issue?</a>'
+
+          });
+        } else {
+          _this2.showCompletedLesson();
+        }
 
         console.log('Alrady send complete lesson request');
       })["catch"](function (err) {
@@ -4802,16 +4813,17 @@ __webpack_require__.r(__webpack_exports__);
       console.log('Video playing');
     });
     player.on('ended', function () {
-      if (_this3.next_lesson_url) {
-        _this3.completeLesson();
-      } else {
-        Swal.fire({
-          icon: 'success',
-          title: 'Congratulation!',
-          text: 'You have complete the series' // footer: '<a href>Why do I have this issue?</a>'
+      // if(this.next_lesson_url){
+      _this3.completeLesson(_this3.next_lesson_url == ""); // }
+      // else{
+      //     Swal.fire({
+      //         icon: 'success',
+      //         title: 'Congratulation!',
+      //         text: 'You have complete the series',
+      //         // footer: '<a href>Why do I have this issue?</a>'
+      //     })
+      // }
 
-        });
-      }
     });
   },
   name: "Vimeo"
@@ -58287,8 +58299,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/lehuy/HuyDev/huydev-course/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/lehuy/HuyDev/huydev-course/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\xampp\htdocs\huydev-course\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\huydev-course\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

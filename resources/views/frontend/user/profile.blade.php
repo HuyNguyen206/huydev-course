@@ -6,8 +6,8 @@
             <div class="row">
                 <div class="col-12 col-lg-8 offset-lg-2">
 
-                    <h1>{{auth()->user()->name}}</h1>
-                    <h1>500 </h1>
+                    <h1>{{$user->name}}</h1>
+                    <h1>{{$user->getTotalNumberOfCompletedLesson()}} </h1>
                     <p class="fs-20 opacity-70">Lesson completed</p>
                 </div>
             </div>
@@ -16,18 +16,33 @@
     </header>
 @endsection
 @section('content')
-
-    <div class="section">
+    <section class="section">
         <div class="container">
             <div class="row gap-y">
                 <div class="col-12">
                     <h2 style="text-align: center">Series being watched ...</h2>
                 </div>
             </div>
-
+            <div class="row gap-y">
+                @foreach($seriesBeingWatch as $series)
+                <div class="col-12 col-md-6 col-xl-4">
+                    <a class="shop-item" href="{{route('watch-series', $series->slug)}}">
+                        <div class="item-details">
+                            <div>
+                                <h5>{{$series->title}}</h5>
+                                <p>{{$series->description}}</p>
+                            </div>
+                        </div>
+                        <img style="width: 100%;
+    height: 200px;
+    object-fit: cover;" src="{{$series->image_path}}" alt="product">
+                    </a>
+                </div>
+                @endforeach
+            </div>
 
         </div>
-    </div>
+    </section>
     <section class="section bg-gray" id="section-vtab">
         <div class="container">
             <header class="section-header">

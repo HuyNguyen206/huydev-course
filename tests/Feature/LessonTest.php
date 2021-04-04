@@ -67,10 +67,10 @@ class LessonTest extends TestCase
         $lesson3 = factory(Lesson::class)->create(['episode_number' => 400, 'series_id' => 1]);
 
         $this->assertEquals($lesson2->getNextLesson()->id, $lesson->id);
-        $this->assertNull($lesson2->getPreviousLesson());
+        $this->assertEquals($lesson2->id,$lesson2->getPreviousLesson()->id);
         $this->assertEquals($lesson3->id,$lesson->getNextLesson()->id);
         $this->assertEquals($lesson2->id,$lesson->getPreviousLesson()->id);
-        $this->assertNull($lesson3->getNextLesson());
+        $this->assertEquals($lesson3->id, $lesson3->getNextLesson()->id);
     }
 
 }

@@ -39,4 +39,28 @@ trait Learning {
         $key = $this->getKeyUserSeries($lesson->series->id);
         return in_array($lesson->id, Redis::smembers($key));
     }
+
+    public function getSeriesBeingWatch(){
+        $listKey = Redis::keys("user:$this->id:series:*");
+        $seriesId = [];
+        foreach ($listKey as $value){
+            $seriesId[] = explode('series:', $value)[1];
+        }
+        return $seriesId ? Series::whereIn('id', $seriesId)->get() : $seriesId;
+    }
+
+    public function getTotalNumberOfCompletedLesson(){
+        $listKey = Redis::keys("user:$this->id:series:*");
+        $sum = 0;
+        foreach ($listKey as $value){
+            $sum += count(Redis::smembers($value));
+        }
+        return $sum;
+    }
+
+    public function getNextLessonToWatch($seriesId){
+        $lessonWatchedId = Redis::smembers($this->getKeyUserSeries($seriesId));
+        $lastLessonId = end($lessonWatchedId);
+        return Lesson::find($lastLessonId)->getNextLesson();
+    }
 }

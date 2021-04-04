@@ -68,10 +68,21 @@ export default {
             //     timer: 1500
             // })
         },
-        completeLesson(){
+        completeLesson(isLastLesson){
             axios.post(`/series/complete-lesson/${this.lesson_id}`)
             .then(res =>{
-                this.showCompletedLesson()
+                console.log('last lesson:'+isLastLesson)
+                if(isLastLesson){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Congratulation!',
+                        text: 'You have complete the series',
+                        // footer: '<a href>Why do I have this issue?</a>'
+                    })
+                }
+                else{
+                    this.showCompletedLesson()
+                }
                 console.log('Alrady send complete lesson request')
             })
             .catch(err => {
@@ -86,17 +97,17 @@ export default {
         })
 
         player.on('ended', ()=>{
-            if(this.next_lesson_url){
-                this.completeLesson()
-            }
-            else{
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Congratulation!',
-                    text: 'You have complete the series',
-                    // footer: '<a href>Why do I have this issue?</a>'
-                })
-            }
+            // if(this.next_lesson_url){
+                this.completeLesson(this.next_lesson_url == "")
+            // }
+            // else{
+            //     Swal.fire({
+            //         icon: 'success',
+            //         title: 'Congratulation!',
+            //         text: 'You have complete the series',
+            //         // footer: '<a href>Why do I have this issue?</a>'
+            //     })
+            // }
 
         })
 

@@ -15,9 +15,9 @@
                     </p>
                     @auth
                         @hasStartSeries($series->id)
-                            <a class="btn btn-lg btn-round w-200 btn-primary mr-16" href="#">Continue the series</a>
+                            <a class="btn btn-lg btn-round btn-primary mr-16" href="{{route('watch-series', $series->slug)}}">Continue the series</a>
                         @else
-                            <a class="btn btn-lg btn-round w-200 btn-primary mr-16" href="{{route('watch-series', $series->slug)}}">Start the series</a>
+                            <a class="btn btn-lg btn-round btn-primary mr-16" href="{{route('watch-series', $series->slug)}}">Start the series</a>
                         @endhasStartSeries
                     @endauth
                     @guest

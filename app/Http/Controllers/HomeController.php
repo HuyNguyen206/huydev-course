@@ -32,7 +32,4 @@ class HomeController extends Controller
         return view('frontend.series.show', compact('series'));
     }
 
-    public function getProfile(){
-        return view('frontend.user.profile');
-    }
 }

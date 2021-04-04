@@ -52,6 +52,7 @@
 <script src="{{asset('assets/js/core.min.js')}}"></script>
 <script src="{{asset('assets/js/thesaas.min.js')}}"></script>
 <script src="{{asset('assets/js/script.js')}}"></script>
+@yield('script')
 {{--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>--}}
 
 </body>
