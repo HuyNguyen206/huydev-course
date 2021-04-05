@@ -43,13 +43,13 @@ Route::get('set-redis', function () {
 });
 Route::get('series/{series}', 'HomeController@showSeries')->name('series');
 Route::get('watch-series/{series}', 'WatchSeriesController@index')->name('watch-series');
-Route::get('series/{series}/lesson/{lesson}', 'WatchSeriesController@watchLesson')->name('watch-series.lesson');
+Route::get('series/{series}/lesson/{lesson}', 'WatchSeriesController@watchLesson')->middleware('subscribed')->name('watch-series.lesson');
 Route::post('series/complete-lesson/{lesson}', 'WatchSeriesController@completeLesson')->name('watch-series.complete-lesson');
 //
 //Route::get('/home', 'HomeController@index')->name('home');
 Route::get('profile/{user}', 'ProfileController@getProfile')->name('profile');
 
-Route::get('subscribe', 'SubscriptionController@showSubscription');
+Route::get('subscribe', 'SubscriptionController@showSubscription')->name('show-subscribe');
 Route::post('post-subscribe', 'SubscriptionController@processSubscription')->name('post-subscribe');
 // welcome page only for subscribed users
-Route::get('welcome-subscribe', 'SubscriptionController@showWelcome')->middleware('subscribed')->name('subscribed');
+Route::get('welcome-subscribe', 'SubscriptionController@showWelcome')->name('subscribed');

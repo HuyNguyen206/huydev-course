@@ -14,9 +14,8 @@ class SubscriptionController extends Controller
     public function retrievePlans() {
         $key = \config('services.stripe.secret');
         $stripe = new \Stripe\StripeClient($key);
-        $plansraw = $stripe->plans->all();
+        $plansraw = $stripe->plans->all(['active' => true]);
         $plans = $plansraw->data;
-
         foreach($plans as $plan) {
             $prod = $stripe->products->retrieve(
                 $plan->product,[]
@@ -45,11 +44,11 @@ class SubscriptionController extends Controller
             $user->newSubscription('default', $plan)->create($paymentMethod, [
                 'email' => $user->email
             ]);
-        } catch (\Exception $e) {
-            return back()->withErrors(['message' => 'Error creating subscription. ' . $e->getMessage()]);
+        } catch (\Throwable $e) {
+            return response()->error('Error creating subscription. ' . $e->getMessage());
         }
 
-        return redirect()->route('subscribed');
+        return response()->success(route('subscribed'));
     }
 
     public function showWelcome(){
