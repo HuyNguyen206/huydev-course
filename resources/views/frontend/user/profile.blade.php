@@ -96,7 +96,7 @@
                         </div>
 
                         <div class="tab-pane fade" id="payment" aria-expanded="false">
-                            <p class="text-center"><img src="assets/img/blog-2.jpg" alt="..."></p>
+                            <stripe-subscription current_plan_json="{{json_encode($subscriptionPlan)}}" plans_json="{{json_encode($plans)}}"></stripe-subscription>
                         </div>
 
                         <div class="tab-pane fade" id="setting" aria-expanded="false">

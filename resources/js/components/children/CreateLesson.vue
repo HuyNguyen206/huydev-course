@@ -42,6 +42,10 @@
                                     {{ this.errors.description[0] }}
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <input type="checkbox" v-model="form.premium">
+                                <label for="">Premium</label>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -96,6 +100,7 @@ export default {
             this.form.video_id = lesson.video_id || ''
             this.form.description = lesson.description || ''
             this.form.episode_number = lesson.episode_number || ''
+            this.form.premium = lesson.premium || ''
         }
     },
     data() {
@@ -104,7 +109,8 @@ export default {
                 title: '',
                 video_id: '',
                 description: '',
-                episode_number: ''
+                episode_number: '',
+                premium: false
             },
             errors: [],
             isEdit: false,

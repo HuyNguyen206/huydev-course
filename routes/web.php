@@ -49,7 +49,8 @@ Route::post('series/complete-lesson/{lesson}', 'WatchSeriesController@completeLe
 //Route::get('/home', 'HomeController@index')->name('home');
 Route::get('profile/{user}', 'ProfileController@getProfile')->name('profile');
 
-Route::get('subscribe', 'SubscriptionController@showSubscription')->name('show-subscribe');
-Route::post('post-subscribe', 'SubscriptionController@processSubscription')->name('post-subscribe');
+Route::get('subscribe', 'SubscriptionController@showSubscription')->name('show-subscribe')->middleware('check-subscribe');
+Route::post('post-subscribe', 'SubscriptionController@processSubscription')->name('post-subscribe')->middleware('check-subscribe');
+Route::post('update-plan', 'SubscriptionController@updatePlan')->name('update-plan');
 // welcome page only for subscribed users
 Route::get('welcome-subscribe', 'SubscriptionController@showWelcome')->name('subscribed');

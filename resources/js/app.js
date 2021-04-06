@@ -9,7 +9,8 @@ import Swal from 'sweetalert2'
 window.Swal = Swal
 window.Vue = require('vue');
 window.Event = new Vue()
-
+import Notification from "./helper/Notification";
+window.Notification = Notification
 window.noty = function (payload){
     Event.$emit('notify', payload)
 }
@@ -24,7 +25,7 @@ window.noty = function (payload){
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+Vue.component('StripeSubscription', require('./components/StripeSubscription.vue').default);
 Vue.component('Login', require('./components/Login.vue').default);
 Vue.component('Lessons', require('./components/Lessons').default);
 Vue.component('Noty', require('./components/Noty').default);

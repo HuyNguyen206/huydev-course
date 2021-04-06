@@ -27,8 +27,13 @@
                 @endadmin
                 <a class="btn btn-sm btn-white mr-4"
                    href="{{route('profile', auth()->user()->username)}}">Hi {{auth()->user()->name}}</a>
+            @php
+                $user = auth()->user()
+            @endphp
+            @unlessisSubcribe($user)
                 <a class="btn btn-sm btn-white mr-4"
                    href="{{route('show-subscribe')}}">Subcribe</a>
+            @endisSubcribe
                 <a class="btn btn-sm btn-white mr-4"
                    href="{{url('logout')}}">Logout</a>
             @endauth

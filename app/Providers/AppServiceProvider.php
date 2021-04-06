@@ -32,5 +32,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('admin', function (){
             return auth()->user()->isAdmin();
         });
+
+        Blade::if('isSubcribe', function ($user){
+            return $user->subscribed('default');
+        });
     }
 }

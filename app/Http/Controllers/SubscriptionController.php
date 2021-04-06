@@ -35,6 +35,9 @@ class SubscriptionController extends Controller
     }
     public function processSubscription(Request $request)
     {
+        $request->validate([
+            'plan' => 'required'
+        ]);
         $user = Auth::user();
         $paymentMethod = $request->input('payment_method');
         $user->createOrGetStripeCustomer();
@@ -53,5 +56,16 @@ class SubscriptionController extends Controller
 
     public function showWelcome(){
         return view('frontend.welcome-subscribe');
+    }
+
+    public function updatePlan(Request $request){
+        try {
+            $user = Auth::user();
+            $user->subscription('default')->swap($request->plan);
+            return response()->success();
+        }
+        catch (\Throwable $ex){
+            return response()->error($ex->getMessage());
+        }
     }
 }

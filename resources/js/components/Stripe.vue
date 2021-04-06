@@ -9,11 +9,12 @@
                 <div v-for="(plan, index) in plans" :key="index" class="col-md-4">
                     <div class="subscription-option">
                         <label :for="planLabel(plan.id)">
+                            <span class="plan-name">{{ plan.product.name }}</span>
                             <span
                                 class="plan-price">{{ plan.amount / 100 + " " + plan.currency }} <small> / {{ plan.interval_count+' '+plan.interval }}</small></span>
-                            <span class="plan-name">{{ plan.name }}</span>
+
                         </label>
-                        <input type="radio" v-model="plan_name" :id="planLabel(plan.id)" name="plan" :value="plan.id">
+                        <input type="radio" v-model="plan_id" :id="planLabel(plan.id)" name="plan" :value="plan.id">
                     </div>
                 </div>
             </div>
@@ -52,7 +53,7 @@ export default {
             plans: JSON.parse(this.plans_json),
             intent: JSON.parse(this.intent_json),
             card: {},
-            plan_name:'',
+            plan_id:'',
             error:'',
             stripe: {},
             loading: false
@@ -91,14 +92,46 @@ export default {
         paymentMethodHandler(payment_method) {
             axios.post(`/post-subscribe`,{
                 'payment_method':payment_method,
-                'plan' : this.plan_name
+                'plan' : this.plan_id
             })
             .then((res) => {
-                window.location = res.data.data
-                alert('You have subscribe successfully')
+                let timerInterval
+                Swal.fire({
+                    icon: 'success',
+                    title: 'You have subscribe successfully',
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                    timer: 3000,
+                    didOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                            const content = Swal.getContent()
+                            if (content) {
+                                const b = content.querySelector('b')
+                                if (b) {
+                                    b.textContent = Swal.getTimerLeft()
+                                }
+                            }
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        window.location = res.data.data
+                    }
+                })
             })
             .catch(err => {
-                this.error = err.response.data.message
+                if(err.response.data.errors){
+                    this.error = err.response.data.errors.plan[0]
+                }
+                else{
+                    this.error = err.response.data.message
+                }
+
             })
             .then(res => {
                 this.loading = false
