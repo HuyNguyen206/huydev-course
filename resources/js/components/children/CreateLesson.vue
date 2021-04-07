@@ -100,7 +100,7 @@ export default {
             this.form.video_id = lesson.video_id || ''
             this.form.description = lesson.description || ''
             this.form.episode_number = lesson.episode_number || ''
-            this.form.premium = lesson.premium || ''
+            this.form.premium = lesson.premium || 0
         }
     },
     data() {

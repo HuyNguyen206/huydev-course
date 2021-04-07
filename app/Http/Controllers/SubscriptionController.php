@@ -68,4 +68,21 @@ class SubscriptionController extends Controller
             return response()->error($ex->getMessage());
         }
     }
+
+    public function updatePayment(Request $request){
+        $request->validate([
+            'payment_method' => 'required'
+        ]);
+        try {
+            $user = \auth()->user();
+            $user->updateDefaultPaymentMethod($request->payment_method);
+            $card_brand = $user->card_brand;
+            $card_last_four = $user->card_last_four;
+            return response()->success(compact('card_brand', 'card_last_four'));
+        }
+        catch (\Throwable $ex){
+            return  response()->error($ex->getMessage());
+        }
+
+    }
 }

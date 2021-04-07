@@ -28,9 +28,11 @@ window.noty = function (payload){
 Vue.component('StripeSubscription', require('./components/StripeSubscription.vue').default);
 Vue.component('Login', require('./components/Login.vue').default);
 Vue.component('Lessons', require('./components/Lessons').default);
-Vue.component('Noty', require('./components/Noty').default);
+// Vue.component('Noty', require('./components/Noty').default);
 Vue.component('Vimeo', require('./components/Vimeo.vue').default);
 Vue.component('Stripe', require('./components/Stripe').default);
+Vue.component('StripeCard', require('./components/StripeCard').default);
+Vue.component('UserInfo', require('./components/UserInfo').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

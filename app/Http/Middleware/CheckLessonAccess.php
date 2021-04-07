@@ -2,9 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Model\Lesson;
 use Closure;
 
-class Subscribed
+class CheckLessonAccess
 {
     /**
      * Handle an incoming request.
@@ -13,17 +14,24 @@ class Subscribed
      * @param  \Closure  $next
      * @return mixed
      */
-        public function handle($request, Closure $next)
+    public function handle($request, Closure $next)
     {
         $user = auth()->user();
         if($user){
+            $lesson = $request->route('lesson');
+//            dd($lesson);
+            if($lesson->premium){
                 if($user->subscribed('default')){
                     return $next($request);
                 }
                 else{
                     return redirect('subscribe');
                 }
+            }
+            else{
+                return $next($request);
+            }
         }
-        return redirect('login');
+            return redirect('login');
     }
 }

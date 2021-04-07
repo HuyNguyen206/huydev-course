@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Stripe\StripeClient;
 
 class ProfileController extends Controller
@@ -30,5 +31,21 @@ class ProfileController extends Controller
             $plans = [];
         }
         return view('frontend.user.profile', compact('user', 'seriesBeingWatch', 'subscriptionPlan', 'plans'));
+    }
+
+    public function updateUser(Request $request, $email){
+        $request->validate([
+            'name' => 'required'
+        ]);
+        try {
+            $user = User::whereEmail($email)->first();
+            $user->name = $request->name;
+            $user->username = Str::slug($request->name);
+            $user->save();
+            return response()->success();
+        }catch (\Throwable $ex){
+            return response()->error($ex->getMessage());
+        }
+
     }
 }

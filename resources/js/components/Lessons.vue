@@ -29,7 +29,8 @@ export default {
     mounted() {
         this.$on('created_lesson', (lesson) => {
             console.log(lesson)
-            noty({message: 'Lesson created success!', status:'success'})
+            Notification.notify(...[,,'Lesson created success!'])
+            // noty({message: 'Lesson created success!', status:'success'})
             this.lessons.push(lesson)
         })
 
@@ -37,7 +38,8 @@ export default {
           let index =  this.lessons.findIndex(lessonIn => {
                 return lessonIn.id == lesson.id
             })
-            noty({message: 'Lesson was updated success!', status:'success'})
+            Notification.notify(...[,,'Lesson was updated success!'])
+            // noty({message: 'Lesson was updated success!', status:'success'})
             this.lessons.splice(index, 1, lesson)
         })
     },
@@ -59,15 +61,34 @@ export default {
             this.$emit('createLesson')
         },
         deleteLesson(id, index){
-            if(confirm('Are you sure to delete this lesson?')){
-                axios.delete(`/admin/${this.id}/lessons/${id}`)
-                    .then(res => {
-                      this.lessons.splice(index, 1)
-                    })
-                    .catch(err => {
-                        alert(err.response.statusText)
-                    })
-            }
+            Swal.fire({
+                title: 'Are you sure to delete this lesson?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`/admin/${this.id}/lessons/${id}`)
+                        .then(res => {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your lesson has been deleted.',
+                                'success'
+                            )
+                            this.lessons.splice(index, 1)
+                        })
+                        .catch(err => {
+                            Swal.fire(
+                                'Deleted!',
+                                err.response.statusText,
+                                'error'
+                            )
+                        })
+                }
+            })
 
         }
     }

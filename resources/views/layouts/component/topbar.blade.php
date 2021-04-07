@@ -16,7 +16,7 @@
             @guest
                 <a class="btn btn-sm btn-outline btn-white hidden-sm-down" data-toggle="modal" data-target="#login-form"
                    href="page-login.html">Login</a>
-                <a class="btn btn-sm btn-outline btn-white hidden-sm-down" href="page-register.html">Register</a>
+                <a class="btn btn-sm btn-outline btn-white hidden-sm-down" href="{{route('register')}}">Register</a>
             @endauth
             @auth
                 @admin

@@ -54,12 +54,14 @@
             <div class="row gap-5">
                 <div class="col-12 col-md-4">
                     <ul class="nav nav-vertical">
+                        @if($user->id == auth()->user()->id)
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#personal" aria-expanded="false">
                                 <h6>Personal details</h6>
                                 <p>Some description about tab</p>
                             </a>
                         </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#payment" aria-expanded="false">
                                 <h6>Payment & Subscription</h6>
@@ -67,8 +69,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#setting" aria-expanded="false">
-                                <h6>Setting</h6>
+                            <a class="nav-link" data-toggle="tab" href="#card" aria-expanded="false">
+                                <h6>Card info</h6>
                                 <p>Some description about tab</p>
                             </a>
                         </li>
@@ -78,29 +80,15 @@
 
                 <div class="col-12 col-md-8 align-self-center">
                     <div class="tab-content">
-                        <div class="tab-pane fade" id="personal" aria-expanded="false">
-                            <form action="http://huydev-course.com/admin/series/learning-laravel-and-vuejs-advance"
-                                  method="POST" enctype="multipart/form-data"><input type="hidden" name="_method"
-                                                                                     value="put"> <input type="hidden"
-                                                                                                         name="_token"
-                                                                                                         value="RFFFDKeQVpngWuPrdokFs8hLaZ27ZM0oX6ZYz1hf">
-                                <div class="form-group"><input type="text"
-                                                               name="name" placeholder="Your name"
-                                                               class="form-control form-control-lg"></div>
-                                <div class="form-group"><input type="text"
-                                                               name="email" placeholder="Your email"
-                                                               class="form-control form-control-lg"></div>
-
-                                <button type="submit" class="btn btn-lg btn-primary btn-block">Save change</button>
-                            </form>
-                        </div>
-
+                        @if($user->id == auth()->user()->id)
+                            <user-info name="{{$user->name}}" email="{{$user->email}}"></user-info>
+                        @endif
                         <div class="tab-pane fade" id="payment" aria-expanded="false">
                             <stripe-subscription current_plan_json="{{json_encode($subscriptionPlan)}}" plans_json="{{json_encode($plans)}}"></stripe-subscription>
                         </div>
 
-                        <div class="tab-pane fade" id="setting" aria-expanded="false">
-                            <p class="text-center"><img src="assets/img/blog-3.jpg" alt="..."></p>
+                        <div class="tab-pane fade" id="card" aria-expanded="false">
+                            <stripe-card stripe_key="{{config('services.stripe.key')}}" card_brand="{{$user->card_brand}}" card_last_four="{{$user->card_last_four}}"></stripe-card>
                         </div>
                     </div>
                 </div>
@@ -111,4 +99,8 @@
 
         </div>
     </section>
+@endsection
+
+@section('script')
+    <script src="https://js.stripe.com/v3/"></script>
 @endsection
