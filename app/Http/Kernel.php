@@ -3,7 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\Administration;
-use App\Http\Middleware\CheckSubscribe;
+use App\Http\Middleware\CheckLessonAccess;
 use App\Http\Middleware\Subscribed;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 

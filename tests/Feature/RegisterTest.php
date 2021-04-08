@@ -43,7 +43,7 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password'
         ]);
         $response->assertRedirect()->assertStatus(302);
-        Mail::assertSent(ConfirmYourEmail::class);
+        Mail::assertQueued(ConfirmYourEmail::class);
     }
 
     public function test_user_get_confirm_token_after_register(){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Series;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,11 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $this->setSeo('Nora','Best development course tutorial' );
         $series = Series::all();
         return view('layouts.index', compact('series'));
     }
 
     public function showSeries(Series $series){
+        $this->setSeo($series->title,$series->description );
         return view('frontend.series.show', compact('series'));
     }
 

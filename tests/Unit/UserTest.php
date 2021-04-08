@@ -170,6 +170,6 @@ class UserTest extends TestCase
         $user->completeLesson($lesson2);
         $this->assertEquals($lesson3->id,$user->getNextLessonToWatch($lesson->series_id)->id);
         $user->completeLesson($lesson3);
-        $this->assertEquals(null,$user->getNextLessonToWatch($lesson->series_id));
+        $this->assertEquals($lesson->series_id,$user->getNextLessonToWatch($lesson->series_id)->series_id);
     }
 }
